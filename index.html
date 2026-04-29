@@ -140,8 +140,8 @@ function calc(){
     let extra = Math.floor((income - 50000) / 10000);
     bonus = 500 + (extra * 100);
 
-    let nextTarget = Math.ceil(income / 10000) * 10000 + 10000;
-    let remaining = nextTarget - income;
+   let nextTarget = Math.floor(income / 10000) * 10000 + 10000;
+let remaining = nextTarget - income;
 
     msg = "ما شاء الله، مستمرة على أداء عالي، باقي لك " + remaining.toLocaleString() + " ريال لزيادة 100 ريال إضافية";
     output.className = "result green";
