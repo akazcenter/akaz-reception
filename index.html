@@ -1,1 +1,148 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حاسبة مكافآت الاستقبال - مركز عكاز</title>
 
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Tahoma;
+  background:#f4f6f9;
+  direction:rtl;
+}
+.container{
+  max-width:420px;
+  margin:40px auto;
+  background:#fff;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+.logo{
+  width:260px;
+  display:block;
+  margin:0 auto 20px;
+}
+h1{
+  text-align:center;
+  color:#1f3a5f;
+}
+.subtitle{
+  text-align:center;
+  color:#666;
+  margin-bottom:20px;
+}
+input{
+  width:100%;
+  height:55px;
+  margin-bottom:12px;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  font-size:18px;
+  text-align:right;
+}
+button{
+  width:100%;
+  height:55px;
+  background:#1f3a5f;
+  color:#fff;
+  border:0;
+  border-radius:10px;
+  font-size:20px;
+  cursor:pointer;
+}
+.result{
+  margin-top:20px;
+  padding:15px;
+  border-radius:12px;
+  text-align:center;
+  font-weight:bold;
+  line-height:1.8;
+}
+.green{background:#edf8ef;color:#166534;}
+.red{background:#fff1f2;color:#991b1b;}
+.blue{background:#eef5ff;color:#1f3a5f;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="logo.png" class="logo">
+
+<h1>حاسبة مكافآت الاستقبال</h1>
+<div class="subtitle">احسب مكافأتك من دخل الكشف</div>
+
+<input type="number" id="income" placeholder="دخل الكشف الشهري">
+
+<button onclick="calc()">احسب</button>
+
+<div id="output" class="result blue">—</div>
+
+</div>
+
+<script>
+function calc(){
+
+  let income = Number(document.getElementById('income').value);
+  let output = document.getElementById('output');
+
+  if(!income && income !== 0){
+    output.className = "result red";
+    output.innerHTML = "اكتب الدخل أولاً";
+    return;
+  }
+
+  // العمولة الأساسية 10%
+  let base = income * 0.10;
+
+  // مكافأة الهدف
+  let bonus = 0;
+
+  if(income >= 50000){
+    bonus = 500;
+
+    if(income >= 60000){
+      bonus = 600;
+
+      let extra = Math.floor((income - 60000) / 10000);
+      bonus += extra * 100;
+    }
+  }
+
+  let total = base + bonus;
+
+  let msg = "";
+
+  if(income < 50000){
+    msg = "باقي لك " + (50000 - income).toLocaleString() + " ريال وتحقق أول مكافأة";
+    output.className = "result red";
+  } 
+  else if(income < 60000){
+    msg = "ما شاء الله، دخلت أول مكافأة";
+    output.className = "result blue";
+  }
+  else{
+    msg = "ما شاء الله، مستمر على أداء عالي";
+    output.className = "result green";
+  }
+
+  let nextTarget = Math.ceil(income / 10000) * 10000 + 10000;
+  let remaining = nextTarget - income;
+
+  output.innerHTML =
+    msg +
+    "<br><br>عمولة الكشف: " + base.toLocaleString() + " ريال" +
+    "<br>مكافأة الهدف: " + bonus.toLocaleString() + " ريال" +
+    "<br><br><b>الإجمالي: " + total.toLocaleString() + " ريال</b>" +
+    "<br><br>باقي " + remaining.toLocaleString() + " ريال لزيادة 100 ريال إضافية";
+}
+</script>
+
+</body>
+</html>
